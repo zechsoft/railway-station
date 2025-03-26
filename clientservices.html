@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobileFix Pro - Services</title>
+    <link href="styles/clientservices.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                MobileFix Pro
+            </div>
+            <div class="header-icons">
+                <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="notification-badge">2</span>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for services...">
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Categories Section -->
+        <div class="categories">
+            <div class="category-item active">
+                <div class="category-icon">
+                    <i class="fas fa-mobile"></i>
+                </div>
+                <div class="category-name">Screen Repair</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-battery-full"></i>
+                </div>
+                <div class="category-name">Battery</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="category-name">Water Damage</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <div class="category-name">Speaker</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="category-name">Charging</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="category-name">Software</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="category-name">Camera</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <div class="category-name">Others</div>
+            </div>
+        </div>
+
+        <!-- Services List -->
+        <div class="services-container">
+            <div class="service-card" onclick="openServiceDetail('iphone-screen')">
+                <div class="service-image" style="background-image: url('/api/placeholder/400/320')">
+                    <div class="service-time">
+                        <i class="far fa-clock"></i> 45 mins
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-title">iPhone 12 Screen Replacement</div>
+                    <div class="service-price">₹4,500</div>
+                    <div class="service-rating">
+                        <div class="stars">★★★★☆</div>
+                        <div class="reviews-count">(120 reviews)</div>
+                    </div>
+                    <button class="book-button">
+                        <i class="far fa-calendar-alt"></i>&nbsp; Book a Repair
+                    </button>
+                </div>
+            </div>
+
+            <div class="service-card" onclick="openServiceDetail('samsung-battery')">
+                <div class="service-image" style="background-image: url('/api/placeholder/400/320')">
+                    <div class="service-time">
+                        <i class="far fa-clock"></i> 30 mins
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-title">Samsung Galaxy Battery Replacement</div>
+                    <div class="service-price">₹2,200</div>
+                    <div class="service-rating">
+                        <div class="stars">★★★★★</div>
+                        <div class="reviews-count">(89 reviews)</div>
+                    </div>
+                    <button class="book-button">
+                        <i class="far fa-calendar-alt"></i>&nbsp; Book a Repair
+                    </button>
+                </div>
+            </div>
+
+            <div class="service-card" onclick="openServiceDetail('water-damage')">
+                <div class="service-image" style="background-image: url('/api/placeholder/400/320')">
+                    <div class="service-time">
+                        <i class="far fa-clock"></i> 2 hours
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-title">Water Damage Repair</div>
+                    <div class="service-price">₹3,500 - ₹5,000</div>
+                    <div class="service-rating">
+                        <div class="stars">★★★★☆</div>
+                        <div class="reviews-count">(56 reviews)</div>
+                    </div>
+                    <button class="book-button">
+                        <i class="far fa-calendar-alt"></i>&nbsp; Book a Repair
+                    </button>
+                </div>
+            </div>
+
+            <div class="service-card" onclick="openServiceDetail('charging-port')">
+                <div class="service-image" style="background-image: url('/api/placeholder/400/320')">
+                    <div class="service-time">
+                        <i class="far fa-clock"></i> 1 hour
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-title">Charging Port Repair</div>
+                    <div class="service-price">₹1,800</div>
+                    <div class="service-rating">
+                        <div class="stars">★★★★☆</div>
+                        <div class="reviews-count">(78 reviews)</div>
+                    </div>
+                    <button class="book-button">
+                        <i class="far fa-calendar-alt"></i>&nbsp; Book a Repair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <a href="clienthome.html" class="bottom-nav-item">
+            <div class="nav-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <div>Home</div>
+        </a>
+        </div>
+        <div class="nav-item active">
+            <a href="#" class="bottom-nav-item">
+            <div class="nav-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <div>Services</div>
+        </a>
+        </div>
+        <div class="nav-item">
+            <a href="#" class="bottom-nav-item">
+            <div class="nav-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div>Bookings</div>
+        </a>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>Profile</div>
+        </div>
+    </div>
+
+    <!-- Service Detail Modal -->
+    <div id="serviceDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Service Details</h2>
+                <button class="close-modal" onclick="closeServiceDetail()">&times;</button>
+            </div>
+            <img src="/api/placeholder/400/320" alt="Service" class="service-detail-image">
+            <div class="modal-body">
+                <h2 id="serviceTitle">iPhone 12 Screen Replacement</h2>
+                <div class="service-rating">
+                    <div class="stars">★★★★☆</div>
+                    <div class="reviews-count">(120 reviews)</div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Description</div>
+                    <p>Our professional iPhone 12 screen replacement service includes removal of the damaged screen, installation of a high-quality replacement screen, and testing to ensure everything works perfectly. All of our replacement parts come with a 6-month warranty.</p>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Pricing</div>
+                    <p><strong>Standard Screen:</strong> ₹4,500</p>
+                    <p><strong>Premium OLED Screen:</strong> ₹5,900</p>
+                    <p><small>* Additional charges may apply for frame damage repair</small></p>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Estimated Time</div>
+                    <p><i class="far fa-clock"></i> 45 mins - 1 hour</p>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Available Technicians</div>
+                    <div class="technicians">
+                        <div class="technician">
+                            <img src="/api/placeholder/400/320" alt="Technician" class="technician-img">
+                            <div class="technician-name">Rahul M.</div>
+                            <div class="technician-rating">★★★★★</div>
+                        </div>
+                        <div class="technician">
+                            <img src="/api/placeholder/400/320" alt="Technician" class="technician-img">
+                            <div class="technician-name">Priya S.</div>
+                            <div class="technician-rating">★★★★☆</div>
+                        </div>
+                        <div class="technician">
+                            <img src="/api/placeholder/400/320" alt="Technician" class="technician-img">
+                            <div class="technician-name">Ajay K.</div>
+                            <div class="technician-rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Recommended Accessories</div>
+                    <div class="accessories">
+                        <div class="accessory">
+                            <img src="/api/placeholder/400/320" alt="Accessory" class="accessory-img">
+                            <div class="accessory-name">iPhone 12 Tempered Glass</div>
+                            <div class="accessory-price">₹499</div>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                        <div class="accessory">
+                            <img src="/api/placeholder/400/320" alt="Accessory" class="accessory-img">
+                            <div class="accessory-name">iPhone 12 Silicon Case</div>
+                            <div class="accessory-price">₹899</div>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                        <div class="accessory">
+                            <img src="/api/placeholder/400/320" alt="Accessory" class="accessory-img">
+                            <div class="accessory-name">Screen Cleaning Kit</div>
+                            <div class="accessory-price">₹299</div>
+                            <button class="add-cart-btn">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Customer Reviews</div>
+                    <div class="reviews">
+                        <div class="review">
+                            <div class="review-header">
+                                <img src="/api/placeholder/400/320" alt="Reviewer" class="reviewer-img">
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Amit Sharma</div>
+                                    <div class="reviewer-date">15 March 2025</div>
+                                </div>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                            <div class="review-text">Great service! My iPhone 12 screen was replaced in just 40 minutes. The technician was professional and the new screen works perfectly.</div>
+                            <div class="review-photos">
+                                <img src="/api/placeholder/400/320" alt="Review Photo" class="review-photo">
+                                <img src="/api/placeholder/400/320" alt="Review Photo" class="review-photo">
+                            </div>
+                        </div>
+                        <div class="review">
+                            <div class="review-header">
+                                <img src="/api/placeholder/400/320" alt="Reviewer" class="reviewer-img">
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Sunita Patel</div>
+                                    <div class="reviewer-date">10 March 2025</div>
+                                </div>
+                                <div class="stars">★★★★☆</div>
+                            </div>
+                            <div class="review-text">Good service overall. Took slightly longer than expected but the quality of the replacement screen is excellent.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="section-title">Frequently Asked Questions</div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            How long does the repair take? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Most screen replacements are completed in 45 minutes to 1 hour. However, timing may vary depending on the specific model and any additional damage that needs to be addressed.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            Is there a warranty for this service? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Yes, all our screen replacements come with a 6-month warranty. This covers any manufacturing defects in the replacement parts but does not cover physical damage or water damage.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            Do you offer doorstep repair services? <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            Yes, we offer doorstep repair for most services including screen replacements. There is an additional travel charge of ₹200-₹500 depending on your location.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <button class="cta-primary">
+                        <i class="far fa-calendar-alt"></i>&nbsp; Book a Repair
+                    </button>
+                    <button class="cta-secondary">
+                        <i class="fas fa-phone-alt"></i>
+                    </button>
+                    <button class="cta-secondary">
+                        <i class="far fa-comment-dots"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/clientservices.js"></script>
+</body>
+</html>

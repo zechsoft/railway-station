@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Accessories Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="styles/clientshop.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-left">
+                <a href="clienthome.html" id="back-link">
+                    <i class="fas fa-arrow-left header-icon" id="backBtn"></i>
+            </a>
+                <div class="logo">FixMobile</div>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for accessories...">
+            </div>
+            <div class="header-right">
+                <button class="filter-btn" id="filterBtn">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Categories Section -->
+        <section class="categories">
+            <div class="category active" data-category="all">
+                <div class="category-icon">🛍</div>
+                <div class="category-name">All</div>
+            </div>
+            <div class="category" data-category="chargers">
+                <div class="category-icon">⚡</div>
+                <div class="category-name">Chargers</div>
+            </div>
+            <div class="category" data-category="cases">
+                <div class="category-icon">📱</div>
+                <div class="category-name">Cases</div>
+            </div>
+            <div class="category" data-category="protectors">
+                <div class="category-icon">🛡</div>
+                <div class="category-name">Protectors</div>
+            </div>
+            <div class="category" data-category="headphones">
+                <div class="category-icon">🎧</div>
+                <div class="category-name">Headphones</div>
+            </div>
+            <div class="category" data-category="powerbanks">
+                <div class="category-icon">🔋</div>
+                <div class="category-name">Power Banks</div>
+            </div>
+            <div class="category" data-category="cables">
+                <div class="category-icon">🔌</div>
+                <div class="category-name">Cables</div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products" id="productsContainer">
+            <!-- Products will be dynamically added here -->
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Use</a>
+                <a href="#" class="footer-link">Returns & Refunds</a>
+                <a href="#" class="footer-link">Contact Us</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">© 2023 FixMobile. All rights reserved.</div>
+        </footer>
+
+        <!-- Product Details Modal -->
+        <div class="modal" id="productModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Product Details</h3>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Modal content will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Modal -->
+        <div class="cart-modal" id="cartModal">
+            <div class="cart-header">
+                <h3 class="cart-title">Your Cart</h3>
+                <button class="close-cart" id="closeCart">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be dynamically added here -->
+                <div class="empty-cart" id="emptyCart">
+                    <div class="empty-cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="empty-cart-text">Your cart is empty</div>
+                    <button class="continue-shopping" id="continueShopping">Continue Shopping</button>
+                </div>
+            </div>
+            <div class="cart-summary" id="cartSummary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <span>FREE</span>
+                </div>
+                <div class="summary-row">
+                    <span>Discount</span>
+                    <span id="discount">-₹0</span>
+                </div>
+                <div class="coupon-input">
+                    <input type="text" placeholder="Enter coupon code" id="couponInput">
+                    <button class="apply-btn" id="applyCoupon">Apply</button>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span id="total">₹0</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/clientshop.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Repair Service</title>
+    <link href="styles/clienthome.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <a href="#" class="logo">MobileFixr</a>
+        <div class="nav-icons">
+            <a href="#" class="nav-icon"><i class="fas fa-search"></i></a>
+            <a href="#" class="nav-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge">2</span>
+            </a>
+            <a href="#" class="nav-icon">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </a>
+            <div class="dropdown">
+                <a href="#" class="nav-icon dropdown-toggle" onclick="toggleDropdown()">
+                    <i class="fas fa-user-circle"></i>
+                </a>
+                <div class="dropdown-content" id="profileDropdown">
+                    <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="#"><i class="fas fa-history"></i> Repair History</a>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="clientlogin.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h1>Fast & Reliable Mobile Repair Services! 📱</h1>
+            <p>Book a repair today and track real-time updates from start to finish.</p>
+            <div class="hero-buttons">
+                <button class="btn accent-btn"><i class="fas fa-calendar-alt"></i> Book a Service</button>
+                <button class="btn outline-btn"><i class="fas fa-box"></i> Track My Repair</button>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- SERVICES SECTION -->
+            <section class="services">
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <div class="service-title">Screen Replacement</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-battery-full"></i></div>
+                        <div class="service-title">Battery Issues</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-volume-up"></i></div>
+                        <div class="service-title">Speaker Repair</div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-tint"></i></div>
+                        <div class="service-title">Water Damage</div>
+                    </div>
+                </div>
+                <button class="btn outline-btn" style="width: 100%;">View More Services</button>
+            </section>
+
+            <!-- TRACKING SECTION -->
+            <section class="tracking">
+                <h2>Live Repair Tracking</h2>
+                <p>Track your device repair in real-time. Get instant status updates and estimated delivery time.</p>
+                
+                <div class="track-form">
+                    <input type="text" placeholder="Enter your Repair ID">
+                    <button class="btn accent-btn"><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="progress-tracker">
+                    <div class="progress-step completed"><i class="fas fa-check"></i></div>
+                    <div class="progress-step completed"><i class="fas fa-check"></i></div>
+                    <div class="progress-step active">3</div>
+                    <div class="progress-step">4</div>
+                    <div class="progress-step">5</div>
+                    <div class="progress-step">6</div>
+                </div>
+                <div class="step-labels">
+                    <span class="step-label">Booked</span>
+                    <span class="step-label">Diagnosis</span>
+                    <span class="step-label">Repairing</span>
+                    <span class="step-label">QC</span>
+                    <span class="step-label">Shipping</span>
+                    <span class="step-label">Delivered</span>
+                </div>
+            </section>
+
+            <!-- ACCESSORIES SECTION -->
+            <section class="accessories">
+                <h2>Buy Accessories</h2>
+                <p>Upgrade your mobile with top-quality accessories. Delivered with your repaired device!</p>
+                
+                <div class="accessories-carousel">
+                    <div class="accessory-card">
+                        <div class="accessory-img"><i class="fas fa-mobile-alt"></i></div>
+                        <div class="accessory-title">Premium Case</div>
+                        <div class="accessory-price">₹799</div>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                    <div class="accessory-card">
+                        <div class="accessory-img"><i class="fas fa-bolt"></i></div>
+                        <div class="accessory-title">Fast Charger</div>
+                        <div class="accessory-price">₹1,299</div>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                    <div class="accessory-card">
+                        <div class="accessory-img"><i class="fas fa-shield-alt"></i></div>
+                        <div class="accessory-title">Screen Guard</div>
+                        <div class="accessory-price">₹499</div>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                    <div class="accessory-card">
+                        <div class="accessory-img"><i class="fas fa-headphones"></i></div>
+                        <div class="accessory-title">Bluetooth Earbuds</div>
+                        <div class="accessory-price">₹2,499</div>
+                        <button class="btn add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TESTIMONIALS SECTION -->
+            <section class="testimonials">
+                <h2>What Our Customers Say</h2>
+                
+                <div class="testimonial-carousel">
+                    <div class="testimonial active">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="testimonial-text">"Fast service & great experience! My phone was repaired within hours."</div>
+                        <div class="testimonial-author">- Ravi K.</div>
+                    </div>
+                    
+                    <div class="carousel-dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-contact">
+            <h3>Need help? Contact Us!</h3>
+            <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <div>support@mobileservice.com</div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                <div>+91 9876543210</div>
+            </div>
+        </div>
+        
+        <div class="footer-links">
+            <a href="#" class="footer-link">FAQs</a>
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms & Conditions</a>
+            <a href="#" class="footer-link">Contact Us</a>
+        </div>
+    </footer>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <a href="clienthome.html" class="bottom-nav-item active">
+            <div class="bottom-nav-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </a>
+        <a href="clientservices.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon"><i class="fas fa-tools"></i></div>
+            <div>Services</div>
+        </a>
+        <a href="clienttrack.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon"><i class="fas fa-box"></i></div>
+            <div>Track</div>
+        </a>
+        <a href="clientshop.html" class="bottom-nav-item">
+            <div class="bottom-nav-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div>Shop</div>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <div class="bottom-nav-icon"><i class="fas fa-user"></i></div>
+            <div>Profile</div>
+        </a>
+    </div>
+
+    <script src="scripts/clienthome.js"></script>
+</body>
+</html>

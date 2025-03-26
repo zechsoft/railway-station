@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track My Repair</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles/clienttrack.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <a href="clienthome.html" id="back" class="back-link">
+                <i class="fas fa-arrow-left header-icon" id="backBtn"></i>
+            </a> 
+                <div class="header-title">Track My Repair</div>           
+        </div>
+        <div class="header-right">
+            <i class="fas fa-sync-alt header-icon" id="refreshBtn"></i>
+            <i class="fas fa-question-circle header-icon" id="helpBtn"></i>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Active Repair View -->
+        <div class="view active" id="repairView">
+            <!-- Repair Card -->
+            <div class="repair-card">
+                <div class="repair-header">
+                    <div class="device-image">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="repair-details">
+                        <div class="device-name">iPhone 12</div>
+                        <div class="repair-type">Screen Replacement</div>
+                        <div class="service-center">TechFix Service Center</div>
+                        <div class="booking-id">Booking ID: REP8756423</div>
+                    </div>
+                </div>
+                <div class="completion-time">
+                    <div class="completion-time-label">Estimated Completion</div>
+                    <div class="completion-time-value">Today, 4:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Progress Timeline -->
+            <div class="progress-section">
+                <h3 class="section-title">Repair Progress</h3>
+                <div class="progress-timeline">
+                    <div class="progress-line"></div>
+                    
+                    <!-- Step 1 -->
+                    <div class="progress-step">
+                        <div class="step-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-details">
+                            <div class="step-title">Booked</div>
+                            <div class="step-time">Mar 24, 2025 - 09:30 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="progress-step">
+                        <div class="step-icon completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-details">
+                            <div class="step-title">Pickup Scheduled</div>
+                            <div class="step-time">Mar 24, 2025 - 10:15 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="progress-step">
+                        <div class="step-icon current">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="step-details">
+                            <div class="step-title">Repair in Progress</div>
+                            <div class="step-time">Mar 24, 2025 - 12:45 PM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="progress-step">
+                        <div class="step-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="step-details">
+                            <div class="step-title">Quality Check</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5 -->
+                    <div class="progress-step">
+                        <div class="step-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <div class="step-details">
+                            <div class="step-title">Out for Delivery</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 6 -->
+                    <div class="progress-step">
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="step-details">
+                            <div class="step-title">Delivered</div>
+                            <div class="step-time">Pending</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Repair Message -->
+            <div class="repair-card" id="repairMessage">
+                <p style="text-align: center; color: #0052CC;">
+                    <i class="fas fa-tools" style="font-size: 1.2rem; margin-right: 8px;"></i>
+                    Your device is being repaired. We will notify you once it's ready.
+                </p>
+            </div>
+
+            <!-- Map Section (hidden by default) -->
+            <div class="map-section" id="mapSection" >
+                <h3 class="section-title">Live Delivery Tracking</h3>
+                <div class="map-container">
+                    <div id="map" class="map">
+                        <!-- Map will be loaded here -->
+                        <img src="map.jpg" alt="Delivery Map" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="delivery-info">
+                    <div class="delivery-header">
+                        <div class="delivery-person-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="delivery-person-name">John Smith</div>
+                            <div class="delivery-status">On the way</div>
+                        </div>
+                    </div>
+                    <div class="delivery-eta">
+                        <span>Estimated arrival:</span>
+                        <span class="eta-value">20 minutes</span>
+                    </div>
+                    <div class="delivery-actions">
+                        <div class="call-btn">
+                            <i class="fas fa-phone"></i>
+                            <span>Call</span>
+                        </div>
+                        <div class="message-btn">
+                            <i class="fas fa-comment"></i>
+                            <span>Message</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Section -->
+            <div class="support-section">
+                <h3 class="section-title">Need Help?</h3>
+                <div class="support-buttons">
+                    <div class="support-btn" id="contactBtn">
+                        <i class="fas fa-headset"></i>
+                        <div class="support-btn-label">Contact Support</div>
+                    </div>
+                    <div class="support-btn" id="chatBtn">
+                        <i class="fas fa-comment-alt"></i>
+                        <div class="support-btn-label">Live Chat</div>
+                    </div>
+                </div>
+                <button class="reschedule-btn" id="rescheduleBtn">
+                    <i class="fas fa-calendar-alt" style="margin-right: 8px;"></i>
+                    Reschedule Delivery
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty State View -->
+        <div class="view" id="emptyView">
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h2 class="empty-state-title">No Active Repairs</h2>
+                <p class="empty-state-desc">You don't have any active repair requests at the moment.</p>
+                <button class="book-repair-btn" id="bookRepairBtn">
+                    <i class="fas fa-calendar-check" style="margin-right: 8px;"></i>
+                    Book a Repair
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Tracking FAQs</h3>
+            <div class="modal-body">
+                <div class="faq-item">
+                    <div class="faq-question">How accurate is the tracking?</div>
+                    <div class="faq-answer">Our tracking system updates every 5 minutes to provide you with real-time information about your repair status.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What if my delivery is delayed?</div>
+                    <div class="faq-answer">If there are any delays, you'll receive a notification with updated delivery estimates. You can also reschedule the delivery time if needed.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do I contact my delivery person?</div>
+                    <div class="faq-answer">Once your device is out for delivery, you can call or message the delivery person directly through the tracking interface.</div>
+                </div>
+            </div>
+            <button class="modal-close" id="closeModalBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="scripts/clienttrack.js"></script>
+</body>
+</html>

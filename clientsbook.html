@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Repair Booking App</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="styles/clientsbook.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Mobile Indicator (simulating phone UI) -->
+    <div class="mobile-indicator">
+        <div class="mobile-notch"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i> FixiT
+            </div>
+            <div class="nav-icons">
+                <i class="fas fa-search nav-icon"></i>
+                <i class="fas fa-bell nav-icon"></i>
+                <i class="fas fa-user nav-icon"></i>
+            </div>
+        </header>
+        
+
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 class="hero-title">Get Your Mobile Repaired in Just a Few Clicks! 📱</h1>
+                <p class="hero-subtitle">Book a repair and track real-time updates seamlessly.</p>
+                <div class="hero-image">
+                    <img src="/api/placeholder/280/200" alt="Technician repairing a phone">
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-box"></i> Track My Repair
+                    </button>
+                    <button class="btn btn-accent">
+                        <i class="fas fa-credit-card"></i> Payment History
+                    </button>
+                </div>
+            </section>
+
+            <!-- Device Selection Section -->
+            <section class="section active" id="section-1">
+                <h2 class="section-title">Select Your Device</h2>
+                <p class="section-subtitle">Enter your device details to get started.</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Brand Name</label>
+                    <select class="form-control" id="brand">
+                        <option value="">Select Brand</option>
+                        <option value="apple">Apple</option>
+                        <option value="samsung">Samsung</option>
+                        <option value="oneplus">OnePlus</option>
+                        <option value="xiaomi">Xiaomi</option>
+                        <option value="google">Google</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Model Name</label>
+                    <select class="form-control" id="model">
+                        <option value="">Select Model</option>
+                        <option value="iphone13">iPhone 13</option>
+                        <option value="iphone12">iPhone 12</option>
+                        <option value="s21">Samsung Galaxy S21</option>
+                        <option value="s20">Samsung Galaxy S20</option>
+                        <option value="nord">OnePlus Nord</option>
+                        <option value="pixel6">Google Pixel 6</option>
+                        <option value="other">Other (Please Specify)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Device IMEI (Optional)</label>
+                    <input type="text" class="form-control" id="imei" placeholder="Enter 15-digit IMEI number">
+                    <small style="color: #777; font-size: 12px;">*Find your IMEI by dialing *#06#</small>
+                </div>
+                
+                <div class="section-nav">
+                    <div></div>
+                    <button class="btn next-btn" onclick="nextSection(1)">
+                        Proceed to Issue Selection <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Issue Selection Section -->
+            <section class="section" id="section-2">
+                <h2 class="section-title">Select Issue</h2>
+                <p class="section-subtitle">What problem are you facing with your phone?</p>
+                
+                <div class="issue-selection">
+                    <div class="issue-option" onclick="toggleIssue(this)">
+                        <div class="issue-checkbox"><i class="fas fa-check"></i></div>
+                        <div class="issue-content">
+                            <div class="issue-title">Screen Replacement</div>
+                        </div>
+                    </div>
+                    
+                    <div class="issue-option" onclick="toggleIssue(this)">
+                        <div class="issue-checkbox"><i class="fas fa-check"></i></div>
+                        <div class="issue-content">
+                            <div class="issue-title">Battery Issues</div>
+                        </div>
+                    </div>
+                    
+                    <div class="issue-option" onclick="toggleIssue(this)">
+                        <div class="issue-checkbox"><i class="fas fa-check"></i></div>
+                        <div class="issue-content">
+                            <div class="issue-title">Speaker/Microphone Repair</div>
+                        </div>
+                    </div>
+                    
+                    <div class="issue-option" onclick="toggleIssue(this)">
+                        <div class="issue-checkbox"><i class="fas fa-check"></i></div>
+                        <div class="issue-content">
+                            <div class="issue-title">Water Damage Repair</div>
+                        </div>
+                    </div>
+                    
+                    <div class="issue-option" onclick="toggleIssue(this)">
+                        <div class="issue-checkbox"><i class="fas fa-check"></i></div>
+                        <div class="issue-content">
+                            <div class="issue-title">Software Issues & Updates</div>
+                        </div>
+                    </div>
+                    
+                    <div class="issue-option" onclick="toggleIssue(this)">
+                        <div class="issue-checkbox"><i class="fas fa-check"></i></div>
+                        <div class="issue-content">
+                            <div class="issue-title">Other (Please Specify)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-type">
+                    <h3 style="margin-bottom: 16px;">Service Type</h3>
+                    
+                    <div class="service-option" onclick="selectService(this)">
+                        <div class="service-radio"></div>
+                        <div class="service-content">
+                            <div class="service-title">Walk-in Service</div>
+                            <div class="service-desc">Visit our service center</div>
+                        </div>
+                    </div>
+                    
+                    <div class="service-option" onclick="selectService(this)">
+                        <div class="service-radio"></div>
+                        <div class="service-content">
+                            <div class="service-title">Home Pickup & Delivery</div>
+                            <div class="service-desc">Extra charges apply</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-nav">
+                    <button class="btn btn-secondary back-btn" onclick="prevSection(2)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn next-btn" onclick="nextSection(2)">
+                        Proceed to Schedule <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section class="section" id="section-3">
+                <h2 class="section-title">Schedule Pickup</h2>
+                <p class="section-subtitle">Select a convenient time for device pickup and delivery.</p>
+                
+                <div class="form-group">
+                    <label class="form-label">Select Date</label>
+                    <div class="date-picker">
+                        <div class="date-item" onclick="selectDate(this)">
+                            <div class="date-day">Mon</div>
+                            <div class="date-date">25</div>
+                            <div class="date-month">Mar</div>
+                        </div>
+                        <div class="date-item" onclick="selectDate(this)">
+                            <div class="date-day">Tue</div>
+                            <div class="date-date">26</div>
+                            <div class="date-month">Mar</div>
+                        </div>
+                        <div class="date-item" onclick="selectDate(this)">
+                            <div class="date-day">Wed</div>
+                            <div class="date-date">27</div>
+                            <div class="date-month">Mar</div>
+                        </div>
+                        <div class="date-item" onclick="selectDate(this)">
+                            <div class="date-day">Thu</div>
+                            <div class="date-date">28</div>
+                           <div class="date-month">Mar</div>
+</div>
+<div class="date-item" onclick="selectDate(this)">
+    <div class="date-day">Fri</div>
+    <div class="date-date">29</div>
+    <div class="date-month">Mar</div>
+</div>
+<div class="date-item" onclick="selectDate(this)">
+    <div class="date-day">Sat</div>
+    <div class="date-date">30</div>
+    <div class="date-month">Mar</div>
+</div>
+<div class="date-item" onclick="selectDate(this)">
+    <div class="date-day">Sun</div>
+    <div class="date-date">31</div>
+    <div class="date-month">Mar</div>
+</div>
+</div>
+
+<div class="form-group">
+    <label class="form-label">Select Time Slot</label>
+    <div class="time-slots">
+        <div class="time-slot" onclick="selectTime(this)">9:00 AM</div>
+        <div class="time-slot" onclick="selectTime(this)">10:00 AM</div>
+        <div class="time-slot" onclick="selectTime(this)">11:00 AM</div>
+        <div class="time-slot" onclick="selectTime(this)">12:00 PM</div>
+        <div class="time-slot" onclick="selectTime(this)">1:00 PM</div>
+        <div class="time-slot" onclick="selectTime(this)">2:00 PM</div>
+        <div class="time-slot" onclick="selectTime(this)">3:00 PM</div>
+        <div class="time-slot" onclick="selectTime(this)">4:00 PM</div>
+        <div class="time-slot" onclick="selectTime(this)">5:00 PM</div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="form-label">Your Address</label>
+    <textarea class="form-control" rows="3" placeholder="Enter your full address"></textarea>
+</div>
+
+<div class="form-group">
+    <label class="form-label">Phone Number</label>
+    <input type="tel" class="form-control" placeholder="Enter your phone number">
+</div>
+
+<div class="section-nav">
+    <button class="btn btn-secondary back-btn" onclick="prevSection(3)">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+    <button class="btn next-btn" onclick="nextSection(3)">
+        Proceed to Payment <i class="fas fa-arrow-right"></i>
+    </button>
+</div>
+</section>
+
+<!-- Payment Section -->
+<section class="section" id="section-4">
+    <h2 class="section-title">Payment Details</h2>
+    <p class="section-subtitle">Choose your preferred payment method.</p>
+    
+    <div class="cost-breakdown">
+        <div class="cost-item">
+            <span>Repair Cost</span>
+            <span>$89.00</span>
+        </div>
+        <div class="cost-item">
+            <span>Service Fee</span>
+            <span>$10.00</span>
+        </div>
+        <div class="cost-item">
+            <span>Pickup & Delivery</span>
+            <span>$15.00</span>
+        </div>
+        <div class="cost-total">
+            <span>Total Amount</span>
+            <span>$114.00</span>
+        </div>
+    </div>
+    
+    <div class="payment-methods">
+        <div class="payment-method" onclick="selectPayment(this)">
+            <div class="payment-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <div class="payment-details">
+                <div class="payment-title">Credit/Debit Card</div>
+                <div class="payment-desc">Pay securely with your card</div>
+            </div>
+            <div class="payment-radio"></div>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment(this)">
+            <div class="payment-icon">
+                <i class="fas fa-university"></i>
+            </div>
+            <div class="payment-details">
+                <div class="payment-title">Bank Transfer</div>
+                <div class="payment-desc">Direct bank transfer</div>
+            </div>
+            <div class="payment-radio"></div>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment(this)">
+            <div class="payment-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="payment-details">
+                <div class="payment-title">Digital Wallet</div>
+                <div class="payment-desc">Google Pay, Apple Pay, etc.</div>
+            </div>
+            <div class="payment-radio"></div>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment(this)">
+            <div class="payment-icon">
+                <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <div class="payment-details">
+                <div class="payment-title">Cash on Delivery</div>
+                <div class="payment-desc">Pay when your device is delivered</div>
+            </div>
+            <div class="payment-radio"></div>
+        </div>
+    </div>
+    
+    <div class="section-nav">
+        <button class="btn btn-secondary back-btn" onclick="prevSection(4)">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+        <button class="btn next-btn" onclick="nextSection(4)">
+            Confirm Booking <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</section>
+
+<!-- Confirmation Section -->
+<section class="section" id="section-5">
+    <div class="confirmation">
+        <div class="confirmation-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h2 class="section-title">Booking Confirmed!</h2>
+        <p class="section-subtitle">Your repair request has been successfully booked.</p>
+        
+        <div class="booking-details">
+            <div class="booking-row">
+                <div class="booking-label">Booking ID</div>
+                <div class="booking-value">#FXT12345</div>
+            </div>
+            <div class="booking-row">
+                <div class="booking-label">Device</div>
+                <div class="booking-value">iPhone 13</div>
+            </div>
+            <div class="booking-row">
+                <div class="booking-label">Issue</div>
+                <div class="booking-value">Screen Replacement</div>
+            </div>
+            <div class="booking-row">
+                <div class="booking-label">Date & Time</div>
+                <div class="booking-value">Mar 26, 2025 at 10:00 AM</div>
+            </div>
+            <div class="booking-row">
+                <div class="booking-label">Amount</div>
+                <div class="booking-value">$114.00</div>
+            </div>
+        </div>
+        
+        <div class="tracker">
+            <h3 class="tracker-title">Track Your Repair</h3>
+            <div class="tracker-steps">
+                <div class="tracker-step active">1</div>
+                <div class="tracker-step">2</div>
+                <div class="tracker-step">3</div>
+                <div class="tracker-step">4</div>
+                <div class="tracker-progress" style="width: 0%"></div>
+            </div>
+            <div class="tracker-labels">
+                <div class="tracker-label">Booked</div>
+                <div class="tracker-label">Pickup</div>
+                <div class="tracker-label">Repairing</div>
+                <div class="tracker-label">Delivered</div>
+            </div>
+        </div>
+        
+        <button class="btn">
+            <i class="fas fa-home"></i> Back to Home
+        </button>
+    </div>
+</section>
+<div class="bottom-nav">
+    <a href="clienthome.html" class="bottom-nav-item active">
+        <div class="bottom-nav-icon"><i class="fas fa-home"></i></div>
+        <div>Home</div>
+    </a>
+    <a href="clientservices.html" class="bottom-nav-item">
+        <div class="bottom-nav-icon"><i class="fas fa-tools"></i></div>
+        <div>Services</div>
+    </a>
+    <a href="clienttrack.html" class="bottom-nav-item">
+        <div class="bottom-nav-icon"><i class="fas fa-box"></i></div>
+        <div>Track</div>
+    </a>
+    <a href="clientshop.html" class="bottom-nav-item">
+        <div class="bottom-nav-icon"><i class="fas fa-shopping-bag"></i></div>
+        <div>Shop</div>
+    </a>
+    <a href="#" class="bottom-nav-item">
+        <div class="bottom-nav-icon"><i class="fas fa-user"></i></div>
+        <div>Profile</div>
+    </a>
+</div>
+</main>
+</div>
+
+<script src="scripts/clientsbook.js"></script>
+</body>
+</html>

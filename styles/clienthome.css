@@ -1,0 +1,556 @@
+/* RESET & BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #F4F6F8;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 100vh;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+button, .btn {
+    background-color: #0052CC;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+button:hover, .btn:hover {
+    background-color: #003d99;
+    transform: translateY(-2px);
+}
+
+.accent-btn {
+    background-color: #FFC107;
+    color: #333;
+}
+
+.accent-btn:hover {
+    background-color: #e6ac00;
+}
+
+.outline-btn {
+    background-color: transparent;
+    border: 2px solid #0052CC;
+    color: #0052CC;
+}
+
+.outline-btn:hover {
+    background-color: rgba(0, 82, 204, 0.1);
+}
+
+.container {
+    padding: 15px;
+}
+
+/* HEADER STYLES */
+header {
+    background-color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    color: #0052CC;
+    text-decoration: none;
+}
+
+.nav-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-icon {
+    font-size: 22px;
+    color: #333;
+    position: relative;
+}
+
+/* Basic styles for the dropdown */
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.nav-icon {
+font-size: 24px;
+cursor: pointer;
+}
+
+/* Style for the dropdown content */
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f1f1f1;
+min-width: 160px;
+box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+z-index: 1;
+}
+
+.dropdown-content nav {
+display: flex;
+flex-direction: column;
+}
+
+.dropdown-content a {
+color: black;
+padding: 8px 16px;
+text-decoration: none;
+display: block;
+}
+
+.dropdown-content a:hover {
+background-color: #ddd;
+}
+
+/* Show dropdown when active */
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* Hamburger icon (for mobile view) */
+.fas.fa-bars {
+font-size: 30px;
+}
+
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #FFC107;
+    color: #333;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/480/250') center/cover no-repeat;
+    color: white;
+    padding: 25px 15px;
+    border-radius: 0 0 15px 15px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    margin-bottom: 10px;
+}
+
+.hero p {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* SERVICES SECTION */
+.services {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.service-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.service-icon {
+    font-size: 28px;
+    color: #0052CC;
+    margin-bottom: 10px;
+}
+
+.service-title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* TRACKING SECTION */
+.tracking {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.track-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.track-form input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.progress-tracker {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    position: relative;
+}
+
+.progress-tracker::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #ddd;
+    z-index: 1;
+}
+
+.progress-step {
+    position: relative;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.progress-step.active {
+    background-color: #0052CC;
+    color: white;
+}
+
+.progress-step.completed {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.step-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.step-label {
+    width: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ACCESSORIES SECTION */
+.accessories {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.accessories-carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.accessories-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.accessory-card {
+    min-width: 140px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.accessory-img {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+    background-color: #eee;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #0052CC;
+}
+
+.accessory-title {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.accessory-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0052CC;
+    margin-bottom: 10px;
+}
+
+.add-to-cart {
+    background-color: #FFC107;
+    color: #333;
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+/* TESTIMONIALS SECTION */
+.testimonials {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.testimonial-carousel {
+    position: relative;
+}
+
+.testimonial {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.stars {
+    color: #FFC107;
+    margin-bottom: 10px;
+}
+
+.testimonial-text {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.testimonial-author {
+    text-align: right;
+    font-weight: 500;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #0052CC;
+}
+
+/* FOOTER */
+footer {
+    background-color: #0052CC;
+    color: white;
+    padding: 20px 15px;
+    border-radius: 15px 15px 0 0;
+}
+
+.footer-contact {
+    margin-bottom: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.contact-icon {
+    font-size: 20px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* BOTTOM NAV BAR */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    max-width: 480px;
+    margin: 0 auto;
+    z-index: 100;
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #777;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.bottom-nav-icon {
+    font-size: 22px;
+    margin-bottom: 2px;
+}
+
+.bottom-nav-item.active {
+    color: #0052CC;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Style for the dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Show dropdown when active */
+.dropdown-content.show {
+    display: block;
+}
+
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f9f9f9;
+}
+
+.show {
+    display: block;
+}
+
+/* Add bottom padding to make space for bottom nav */
+main {
+    padding-bottom: 70px;
+}
