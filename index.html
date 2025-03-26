@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Railway Station Guide</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #4895ef;
+            --secondary-color: #3f37c9;
+            --accent-color: #f72585;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --danger-color: #ef233c;
+            --dark-color: #2b2d42;
+            --light-color: #f8f9fa;
+            --background-color: #f8f9fa;
+            --card-color: #ffffff;
+            --text-color: #2b2d42;
+            --text-light: #8d99ae;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: var(--card-color);
+            min-height: 100vh;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            min-height: calc(100vh - 60px);
+        }
+
+        .active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+        }
+
+        .app-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .header-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+        }
+
+        .status-icon {
+            font-size: 0.9rem;
+        }
+
+        .online { color: var(--success-color); }
+        .offline { color: var(--danger-color); }
+        .searching { color: var(--warning-color); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: var(--light-color);
+            color: var(--text-color);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .card-body {
+            font-size: 0.9rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        @media (min-width: 400px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .grid-item {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .grid-title {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .station-map {
+            width: 100%;
+            height: 200px;
+            background-color: #e9ecef;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beacon {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .beacon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: ripple 2s infinite;
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .voice-control {
+            margin: 15px 0;
+            background-color: var(--card-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .audio-wave {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 50px;
+            margin: 10px 0;
+            gap: 5px;
+        }
+
+        .audio-wave div {
+            width: 6px;
+            height: 10px;
+            background: linear-gradient(to top, var(--primary-color), var(--success-color));
+            border-radius: 3px;
+            animation: audioWave 0.7s infinite alternate;
+        }
+
+        .audio-wave div:nth-child(2) { animation-delay: 0.1s; height: 15px; }
+        .audio-wave div:nth-child(3) { animation-delay: 0.2s; height: 20px; }
+        .audio-wave div:nth-child(4) { animation-delay: 0.3s; height: 25px; }
+        .audio-wave div:nth-child(5) { animation-delay: 0.4s; height: 30px; }
+
+        @keyframes audioWave {
+            from { height: 10px; }
+            to { height: 30px; }
+        }
+
+        .train-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .train-card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .train-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+
+        .train-number {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .train-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .train-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 3px;
+        }
+
+        .platform-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .queue-visualization {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .queue-progress {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .crowd-indicator {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .low-crowd { background-color: var(--success-color); color: white; }
+        .medium-crowd { background-color: var(--warning-color); color: white; }
+        .high-crowd { background-color: var(--danger-color); color: white; }
+
+        .nav-steps {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .nav-step {
+            position: relative;
+            margin-bottom: 10px;
+            padding-left: 25px;
+        }
+
+        .nav-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        .nav-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 20px;
+            width: 1px;
+            height: calc(100% - 15px);
+            background-color: var(--primary-color);
+        }
+
+        .vr-container {
+            width: 100%;
+            height: 200px;
+            background-color: #000;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .vr-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vr-controls {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .vr-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .vr-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+
+        .emergency-btn {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--danger-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(239, 35, 60, 0.3);
+            z-index: 90;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dark-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .search-bar {
+            display: flex;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+            padding-left: 40px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        /* Accessibility Styles */
+        .accessibility-panel {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            z-index: 500;
+            display: none;
+        }
+
+        .accessibility-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .accessibility-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .high-contrast {
+            --primary-color: #000000;
+            --secondary-color: #0000FF;
+            --accent-color: #FF0000;
+            --background-color: #FFFFFF;
+            --card-color: #FFFFFF;
+            --text-color: #000000;
+            --text-light: #333333;
+        }
+
+        .text-large {
+            font-size: 1.1rem;
+        }
+
+        .text-xlarge {
+            font-size: 1.3rem;
+        }
+
+        /* Real-time Updates */
+        .live-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--danger-color);
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .delay {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+
+        .on-time {
+            color: var(--success-color);
+        }
+
+        /* Favorites */
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .favorite-btn.active {
+            color: var(--danger-color);
+        }
+
+        /* Offline Indicator */
+        .offline-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--danger-color);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            z-index: 1000;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .offline-banner.show {
+            transform: translateY(0);
+        }
+
+        /* VR Waypoints */
+        .waypoint-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: bold;
+            z-index: 100;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .distance-indicator {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        /* Notification Center */
+        .notification-center {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            width: 300px;
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 500;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .notification-time {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Download Progress */
+        .download-progress {
+            width: 100%;
+            height: 5px;
+            background-color: #eee;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .download-progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-spinner"></div>
+        <h2>Railway Guide</h2>
+        <p>Loading station information...</p>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Landing Page -->
+        <div id="landing" class="section active">
+            <div class="app-header">
+                <h1>Railway Guide</h1>
+                <div class="header-actions">
+                    <i class="fas fa-bell header-icon" id="notification-bell"></i>
+                    <i class="fas fa-user header-icon"></i>
+                    <i class="fas fa-universal-access header-icon" id="accessibility-btn"></i>
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <div class="status-item online">
+                    <i class="fas fa-wifi status-icon"></i>
+                    <span>Online</span>
+                </div>
+                <div class="status-item online">
+                    <i class="fas fa-map-marker-alt status-icon"></i>
+                    <span>GPS Active</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-clock status-icon"></i>
+                    <span id="current-time">14:30:45</span>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search for stations or services...">
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Quick Actions</div>
+                </div>
+                <div class="card-body">
+                    <div class="grid-container">
+                        <div class="grid-item" onclick="navigateSection('station-select')">
+                            <i class="fas fa-train grid-icon"></i>
+                            <div class="grid-title">Select Station</div>
+                        </div>
+                        <div class="grid-item" onclick="navigateSection('qr-section')">
+                            <i class="fas fa-qrcode grid-icon"></i>
+                            <div class="grid-title">Scan QR Code</div>
+                        </div>
+                        <div class="grid-item" onclick="showEmergencyModal()">
+                            <i class="fas fa-exclamation-triangle grid-icon"></i>
+                            <div class="grid-title">Emergency</div>
+                        </div>
+                        <div class="grid-item" onclick="navigateSection('train-info')">
+                            <i class="fas fa-info-circle grid-icon"></i>
+                            <div class="grid-title">Train Info</div>
+                        </div>
+                        <div class="grid-item" onclick="navigateSection('platform-guide')">
+                            <i class="fas fa-map-signs grid-icon"></i>
+                            <div class="grid-title">Platform Guide</div>
+                        </div>
+                        <div class="grid-item" onclick="startVoiceNavigation()">
+                            <i class="fas fa-microphone grid-icon"></i>
+                            <div class="grid-title">Voice Guide</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Recent Stations</div>
+                    <button class="btn-icon" onclick="refreshStations()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="grid-container">
+                        <div class="grid-item" onclick="mockQRScan('Central')">
+                            <i class="fas fa-building grid-icon"></i>
+                            <div class="grid-title">Central Station</div>
+                            <button class="favorite-btn active">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="grid-item" onclick="mockQRScan('Southern')">
+                            <i class="fas fa-building grid-icon"></i>
+                            <div class="grid-title">Southern Station</div>
+                            <button class="favorite-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Live Updates</div>
+                </div>
+                <div class="card-body">
+                    <div class="train-card">
+                        <div class="train-name">Mumbai Express</div>
+                        <div class="train-detail">
+                            <span>Platform 1</span>
+                            <span class="on-time">On Time</span>
+                        </div>
+                        <div class="train-detail">
+                            <span>Departs at 15:00</span>
+                            <span>Next: Dadar</span>
+                        </div>
+                    </div>
+                    <div class="train-card">
+                        <div class="train-name">Delhi Rajdhani</div>
+                        <div class="train-detail">
+                            <span>Platform 2</span>
+                            <span class="delay"><span class="live-indicator"></span> Delayed by 15 min</span>
+                        </div>
+                        <div class="train-detail">
+                            <span>Now expected at 16:00</span>
+                            <span>Next: Surat</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Station Selection Page -->
+        <div id="station-select" class="section">
+            <div class="app-header">
+                <h1>Select Station</h1>
+                <div class="header-actions">
+                    <i class="fas fa-arrow-left header-icon" onclick="navigateSection('landing')"></i>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search for stations..." id="station-search">
+            </div>
+
+            <div id="station-list">
+                <!-- Stations will be dynamically populated -->
+            </div>
+        </div>
+
+        <!-- QR Code Scanning Section -->
+        <div id="qr-section" class="section">
+            <div class="app-header">
+                <h1>QR Code Scanner</h1>
+                <div class="header-actions">
+                    <i class="fas fa-arrow-left header-icon" onclick="navigateSection('landing')"></i>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Scan Station QR Code</div>
+                </div>
+                <div class="card-body">
+                    <div class="station-map" id="qr-reader">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-light);">
+                            <i class="fas fa-qrcode" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                            <p>Point your camera at a station QR code</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Quick Test Stations</div>
+                </div>
+                <div class="card-body">
+                    <button class="btn" onclick="mockQRScan('Central')" style="width: 100%; margin-bottom: 10px;">
+                        <i class="fas fa-train"></i> Central Station
+                    </button>
+                    <button class="btn" onclick="mockQRScan('Southern')" style="width: 100%;">
+                        <i class="fas fa-train"></i> Southern Station
+                    </button>
+                </div>
+            </div>
+
+            <div class="voice-control">
+                <div class="card-header">
+                    <div class="card-title">Voice Navigation</div>
+                </div>
+                <div class="card-body">
+                    <button class="btn" onclick="startVoiceNavigation()" style="width: 100%;">
+                        <i class="fas fa-microphone"></i> Start Voice Guidance
+                    </button>
+                    <div class="audio-wave" id="audio-visualization" style="display:none;">
+                        <div></div><div></div><div></div><div></div><div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Station Information Section -->
+        <div id="station-info" class="section">
+            <div class="app-header">
+                <h1 id="current-station-name">Station Name</h1>
+                <div class="header-actions">
+                    <i class="fas fa-arrow-left header-icon" onclick="navigateSection('landing')"></i>
+                    <button class="favorite-btn active" id="station-favorite-btn">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <div class="status-item">
+                    <i class="fas fa-users status-icon"></i>
+                    <span id="crowd-level">Moderate</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-train status-icon"></i>
+                    <span id="next-train-time">Next: 15:45</span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-clock status-icon"></i>
+                    <span id="station-time">14:30</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Station Facilities</div>
+                </div>
+                <div class="card-body">
+                    <div class="grid-container" id="station-amenities">
+                        <!-- Amenities will be dynamically populated -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Station Map</div>
+                </div>
+                <div class="card-body">
+                    <div class="station-map" id="beacon-container">
+                        <!-- Beacons will be dynamically placed -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Download Offline Map</div>
+                </div>
+                <div class="card-body">
+                    <p>Download this station map for offline use:</p>
+                    <button class="btn" onclick="downloadOfflineMap()" style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-download"></i> Download (2.4 MB)
+                    </button>
+                    <div class="download-progress" id="download-progress" style="display: none;">
+                        <div class="download-progress-bar" id="download-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Section -->
+        <div id="navigation" class="section">
+            <div class="app-header">
+                <h1 id="navigation-destination">Navigation</h1>
+                <div class="header-actions">
+                    <i class="fas fa-arrow-left header-icon" onclick="returnToStationInfo()"></i>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title" id="nav-to-destination">To Ticket Counter</div>
+                </div>
+                <div class="card-body">
+                    <div class="station-map" id="navigation-map">
+                        <div style="padding: 15px; text-align: center;">
+                            <i class="fas fa-map-marked-alt" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                            <h3>Station Navigation</h3>
+                            <p id="navigation-instructions">Follow the highlighted route to your destination</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Navigation Steps</div>
+                </div>
+                <div class="card-body">
+                    <div class="nav-steps" id="navigation-details">
+                        <!-- Navigation steps will be populated -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="vr-navigation-card" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title">VR Navigation</div>
+                </div>
+                <div class="card-body">
+                    <div class="vr-container">
+                        <video class="vr-video" id="vr-video" loop>
+                            <source src="https://assets.mixkit.co/videos/preview/mixkit-walking-through-a-train-station-1253-large.mp4" type="video/mp4">
+                        </video>
+                        <div class="vr-controls">
+                            <button class="vr-btn" onclick="toggleVRVideo()">
+                                <i class="fas fa-pause" id="vr-play-pause"></i>
+                            </button>
+                            <button class="vr-btn" onclick="fullscreenVR()">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Train Information Section -->
+        <div id="train-info" class="section">
+            <div class="app-header">
+                <h1>Train Information</h1>
+                <div class="header-actions">
+                    <i class="fas fa-arrow-left header-icon" onclick="navigateSection('station-info')"></i>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Current Trains</div>
+                </div>
+                <div class="card-body">
+                    <div class="train-info" id="current-train-info">
+                        <!-- Current train details -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Upcoming Trains</div>
+                </div>
+                <div class="card-body">
+                    <div class="train-info" id="upcoming-train-list">
+                        <!-- Upcoming train list -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Guide Section -->
+        <div id="platform-guide" class="section">
+            <div class="app-header">
+                <h1>Platform Guide</h1>
+                <div class="header-actions">
+                    <i class="fas fa-arrow-left header-icon" onclick="navigateSection('station-info')"></i>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Platform Information</div>
+                </div>
+                <div class="card-body">
+                    <div id="platform-details">
+                        <!-- Platform details will be populated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket Counter Modal -->
+        <div id="ticket-counter-modal" class="section" style="display: none;">
+            <div class="app-header">
+                <h1>Ticket Counter</h1>
+                <div class="header-actions">
+                    <i class="fas fa-times header-icon" onclick="closeTicketCounterModal()"></i>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div id="ticket-counter-info">
+                        <!-- Ticket counter details will be populated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Modal -->
+        <div id="emergency-modal" class="section" style="display: none;">
+            <div class="app-header" style="background-color: var(--danger-color);">
+                <h1>Emergency Assistance</h1>
+                <div class="header-actions">
+                    <i class="fas fa-times header-icon" onclick="closeEmergencyModal()"></i>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Emergency Contacts</div>
+                </div>
+                <div class="card-body">
+                    <div class="train-info" id="emergency-contacts">
+                        <!-- Emergency contacts will be populated -->
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-danger" onclick="callEmergency('police')" style="width: 100%; margin-bottom: 10px;">
+                <i class="fas fa-police-box"></i> Call Police (100)
+            </button>
+            <button class="btn btn-danger" onclick="callEmergency('medical')" style="width: 100%; margin-bottom: 10px;">
+                <i class="fas fa-ambulance"></i> Call Medical (108)
+            </button>
+            <button class="btn btn-danger" onclick="callEmergency('railway')" style="width: 100%;">
+                <i class="fas fa-train"></i> Railway Helpline (139)
+            </button>
+        </div>
+
+        <!-- Notification Center -->
+        <div class="notification-center" id="notification-center">
+            <div class="notification-header">
+                <h3>Notifications</h3>
+                <button class="btn-icon" onclick="clearNotifications()">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div id="notification-list">
+                <div class="notification-item">
+                    <div>Train 12345 is delayed by 15 minutes</div>
+                    <div class="notification-time">10 minutes ago</div>
+                </div>
+                <div class="notification-item">
+                    <div>Your train to Mumbai is now boarding on Platform 3</div>
+                    <div class="notification-time">25 minutes ago</div>
+                </div>
+                <div class="notification-item">
+                    <div>Ticket counter B has a short queue (5 people)</div>
+                    <div class="notification-time">1 hour ago</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility Panel -->
+        <div class="accessibility-panel" id="accessibility-panel">
+            <div class="accessibility-option">
+                <input type="checkbox" id="high-contrast">
+                <label for="high-contrast">High Contrast</label>
+            </div>
+            <div class="accessibility-option">
+                <label for="text-size">Text Size:</label>
+                <select id="text-size">
+                    <option value="normal">Normal</option>
+                    <option value="large">Large</option>
+                    <option value="xlarge">Extra Large</option>
+                </select>
+            </div>
+            <button class="btn" onclick="toggleScreenReader()" style="width: 100%; margin-top: 10px;">
+                <i class="fas fa-assistive-listening-systems"></i> Screen Reader
+            </button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="navigateSection('landing')">
+                <i class="fas fa-home nav-icon"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateSection('station-select')">
+                <i class="fas fa-train nav-icon"></i>
+                <span>Stations</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateSection('qr-section')">
+                <i class="fas fa-qrcode nav-icon"></i>
+                <span>Scan</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateSection('train-info')">
+                <i class="fas fa-info-circle nav-icon"></i>
+                <span>Info</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showEmergencyModal()">
+                <i class="fas fa-exclamation-triangle nav-icon"></i>
+                <span>Help</span>
+            </a>
+        </div>
+
+        <!-- Floating Emergency Button -->
+        <div class="emergency-btn" onclick="showEmergencyModal()">
+            <i class="fas fa-exclamation"></i>
+        </div>
+
+        <!-- Offline Banner -->
+        <div class="offline-banner" id="offline-banner">
+            <i class="fas fa-wifi-slash"></i> You are currently offline. Some features may be limited.
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+    </div>
+
+    <script>
+        // Comprehensive Sample Data with real-time information
+        const stationData = {
+            'Central': {
+                name: 'Central Railway Station',
+                code: 'CNT',
+                contactNumber: '+91-22-12345678',
+                emergencyNumber: '+91-22-87654321',
+                location: {
+                    city: 'Mumbai',
+                    state: 'Maharashtra'
+                },
+                qrCode: {
+                    description: 'Central Station QR Code',
+                    mockData: 'CENTRAL_STATION_2024_CODE_001'
+                },
+                vrNavigation: {
+                    routes: [
+                        {
+                            name: 'Ticket Counter Route',
+                            steps: [
+                                'Start from main entrance',
+                                'Walk straight for 20 meters',
+                                'Turn right at information desk',
+                                'Ticket counters are 10 meters ahead'
+                            ],
+                            estimatedTime: '2 minutes',
+                            difficulty: 'Easy',
+                            vrVideo: 'https://assets.mixkit.co/videos/preview/mixkit-walking-through-a-train-station-1253-large.mp4',
+                            waypoints: [
+                                { x: 25, y: 30, label: 'Start' },
+                                { x: 50, y: 30, label: 'Info Desk' },
+                                { x: 60, y: 50, label: 'Ticket Counter' }
+                            ]
+                        },
+                        {
+                            name: 'Platform Navigation Route',
+                            steps: [
+                                'Start from main hall',
+                                'Follow yellow line on floor',
+                                'Take escalator to upper level',
+                                'Platforms are located on level 2'
+                            ],
+                            estimatedTime: '3 minutes',
+                            difficulty: 'Medium',
+                            vrVideo: 'https://assets.mixkit.co/videos/preview/mixkit-walking-through-a-train-station-1253-large.mp4',
+                            waypoints: [
+                                { x: 40, y: 40, label: 'Main Hall' },
+                                { x: 60, y: 40, label: 'Escalator' },
+                                { x: 70, y: 60, label: 'Platforms' }
+                            ]
+                        }
+                    ]
+                },
+                amenities: [
+                    { 
+                        name: 'Washrooms', 
+                        crowdLevel: 'low', 
+                        location: 'Ground Floor, West Wing',
+                        details: 'Clean and well-maintained facilities',
+                        accessibilityInfo: 'Wheelchair accessible',
+                        icon: 'restroom',
+                        lastUpdated: '5 minutes ago'
+                    },
+                    { 
+                        name: 'Ticket Counter', 
+                        crowdLevel: 'high', 
+                        location: 'Main Entrance',
+                        details: 'Multiple counters for different ticket types',
+                        waitingTime: '15-20 minutes',
+                        icon: 'ticket-alt',
+                        lastUpdated: '10 minutes ago'
+                    },
+                    { 
+                        name: 'Waiting Room', 
+                        crowdLevel: 'medium', 
+                        location: 'Platform 2',
+                        details: 'Comfortable seating, charging points available',
+                        capacity: '100 people',
+                        icon: 'couch',
+                        lastUpdated: '15 minutes ago'
+                    },
+                    { 
+                        name: 'Luggage Room', 
+                        crowdLevel: 'low', 
+                        location: 'East Wing',
+                        details: 'Secure storage with 24/7 surveillance',
+                        charges: '₹10 per hour',
+                        icon: 'suitcase',
+                        lastUpdated: '20 minutes ago'
+                    },
+                    { 
+                        name: 'Food Court', 
+                        crowdLevel: 'medium', 
+                        location: 'Central Concourse',
+                        details: 'Multiple cuisine options',
+                        openHours: '06:00 - 22:00',
+                        icon: 'utensils',
+                        lastUpdated: '25 minutes ago'
+                    },
+                    { 
+                        name: 'Information Desk', 
+                        crowdLevel: 'low', 
+                        location: 'Main Entrance',
+                        details: 'Multilingual staff available',
+                        services: 'Ticket info, Train schedules',
+                        icon: 'info-circle',
+                        lastUpdated: '30 minutes ago'
+                    },
+                    { 
+                        name: 'ATM', 
+                        crowdLevel: 'low', 
+                        location: 'East Wing',
+                        details: '24/7 cash withdrawal',
+                        icon: 'money-bill-wave',
+                        lastUpdated: '35 minutes ago'
+                    },
+                    { 
+                        name: 'Medical Room', 
+                        crowdLevel: 'low', 
+                        location: 'West Wing',
+                        details: 'First aid available',
+                        icon: 'first-aid',
+                        lastUpdated: '40 minutes ago'
+                    }
+                ],
+                ticketCounters: [
+                    {
+                        name: 'Counter A',
+                        currentQueue: {
+                            total: 25,
+                            averageWaitTime: '20 minutes',
+                            status: 'high',
+                            queuePercentage: 75,
+                            lastUpdated: '5 minutes ago'
+                        },
+                        services: ['General Tickets', 'Reservation', 'Cancellation']
+                    },
+                    {
+                        name: 'Counter B',
+                        currentQueue: {
+                            total: 10,
+                            averageWaitTime: '10 minutes',
+                            status: 'medium',
+                            queuePercentage: 40,
+                            lastUpdated: '10 minutes ago'
+                        },
+                        services: ['Express Tickets', 'Online Booking']
+                    }
+                ],
+                platforms: [
+                    {
+                        number: 1,
+                        currentTrain: {
+                            number: 'A123',
+                            name: 'Mumbai Express',
+                            destination: 'Mumbai',
+                            arrivalTime: '14:30',
+                            departureTime: '15:00',
+                            status: 'On Time',
+                            lastUpdated: '2 minutes ago'
+                        }
+                    },
+                    {
+                        number: 2,
+                        currentTrain: {
+                            number: 'B456',
+                            name: 'Delhi Rajdhani',
+                            destination: 'Delhi',
+                            arrivalTime: '15:45',
+                            departureTime: '16:15',
+                            status: 'Delayed by 15 min',
+                            lastUpdated: '5 minutes ago'
+                        }
+                    },
+                    {
+                        number: 3,
+                        currentTrain: {
+                            number: 'C789',
+                            name: 'Kolkata Mail',
+                            destination: 'Kolkata',
+                            arrivalTime: '16:30',
+                            departureTime: '17:00',
+                            status: 'On Time',
+                            lastUpdated: '10 minutes ago'
+                        }
+                    }
+                ],
+                upcomingTrains: [
+                    { 
+                        number: 'D012', 
+                        name: 'Chennai Express',
+                        destination: 'Chennai', 
+                        platform: 1, 
+                        arrivalTime: '17:00',
+                        status: 'On Time',
+                        lastUpdated: '15 minutes ago'
+                    },
+                    { 
+                        number: 'E345', 
+                        name: 'Bangalore Shatabdi',
+                        destination: 'Bangalore', 
+                        platform: 2, 
+                        arrivalTime: '17:30',
+                        status: 'On Time',
+                        lastUpdated: '20 minutes ago'
+                    },
+                    { 
+                        number: 'F678', 
+                        name: 'Hyderabad Special',
+                        destination: 'Hyderabad', 
+                        platform: 3, 
+                        arrivalTime: '18:15',
+                        status: 'On Time',
+                        lastUpdated: '25 minutes ago'
+                    }
+                ],
+                offlineMap: {
+                    size: '2.4 MB',
+                    lastUpdated: '2024-03-15',
+                    downloadUrl: 'https://example.com/maps/central_station.zip'
+                }
+            },
+            'Southern': {
+                name: 'Southern Railway Station',
+                code: 'STH',
+                contactNumber: '+91-44-87654321',
+                emergencyNumber: '+91-44-12345678',
+                location: {
+                    city: 'Chennai',
+                    state: 'Tamil Nadu'
+                },
+                qrCode: {
+                    description: 'Southern Station QR Code',
+                    mockData: 'SOUTHERN_STATION_2024_CODE_002'
+                },
+                vrNavigation: {
+                    routes: [
+                        {
+                            name: 'Food Court Route',
+                            steps: [
+                                'Exit main entrance',
+                                'Walk left for 15 meters',
+                                'Enter central concourse',
+                                'Food court is on your right'
+                            ],
+                            estimatedTime: '2 minutes',
+                            difficulty: 'Easy',
+                            vrVideo: 'https://assets.mixkit.co/videos/preview/mixkit-walking-through-a-train-station-1253-large.mp4',
+                            waypoints: [
+                                { x: 30, y: 40, label: 'Start' },
+                                { x: 40, y: 50, label: 'Concourse' },
+                                { x: 50, y: 60, label: 'Food Court' }
+                            ]
+                        },
+                        {
+                            name: 'Platform Navigation Route',
+                            steps: [
+                                'Start from ticket counter',
+                                'Walk straight for 30 meters',
+                                'Take stairs to level 1',
+                                'Platforms are straight ahead'
+                            ],
+                            estimatedTime: '3 minutes',
+                            difficulty: 'Medium',
+                            vrVideo: 'https://assets.mixkit.co/videos/preview/mixkit-walking-through-a-train-station-1253-large.mp4',
+                            waypoints: [
+                                { x: 35, y: 45, label: 'Ticket Counter' },
+                                { x: 55, y: 45, label: 'Stairs' },
+                                { x: 65, y: 55, label: 'Platforms' }
+                            ]
+                        }
+                    ]
+                },
+                amenities: [
+                    { 
+                        name: 'Drinking Water', 
+                        crowdLevel: 'low', 
+                        location: 'Near Waiting Area',
+                        details: 'RO water purifiers',
+                        accessibility: 'Multiple points',
+                        icon: 'tint',
+                        lastUpdated: '5 minutes ago'
+                    },
+                    { 
+                        name: 'Food Court', 
+                        crowdLevel: 'medium', 
+                        location: 'Central Concourse',
+                        details: 'Multiple cuisine options',
+                        openHours: '06:00 - 22:00',
+                        icon: 'utensils',
+                        lastUpdated: '10 minutes ago'
+                    },
+                    { 
+                        name: 'Information Desk', 
+                        crowdLevel: 'low', 
+                        location: 'Main Entrance',
+                        details: 'Multilingual staff available',
+                        services: 'Ticket info, Train schedules',
+                        icon: 'info-circle',
+                        lastUpdated: '15 minutes ago'
+                    },
+                    { 
+                        name: 'ATM', 
+                        crowdLevel: 'low', 
+                        location: 'East Wing',
+                        details: '24/7 cash withdrawal',
+                        icon: 'money-bill-wave',
+                        lastUpdated: '20 minutes ago'
+                    },
+                    { 
+                        name: 'Medical Room', 
+                        crowdLevel: 'low', 
+                        location: 'West Wing',
+                        details: 'First aid available',
+                        icon: 'first-aid',
+                        lastUpdated: '25 minutes ago'
+                    },
+                    { 
+                        name: 'Ticket Counter', 
+                        crowdLevel: 'medium', 
+                        location: 'Main Entrance',
+                        details: 'Multiple counters for different ticket types',
+                        waitingTime: '10-15 minutes',
+                        icon: 'ticket-alt',
+                        lastUpdated: '30 minutes ago'
+                    },
+                    { 
+                        name: 'Waiting Room', 
+                        crowdLevel: 'low', 
+                        location: 'Platform 1',
+                        details: 'Comfortable seating, charging points available',
+                        capacity: '80 people',
+                        icon: 'couch',
+                        lastUpdated: '35 minutes ago'
+                    },
+                    { 
+                        name: 'Luggage Room', 
+                        crowdLevel: 'low', 
+                        location: 'East Wing',
+                        details: 'Secure storage with 24/7 surveillance',
+                        charges: '₹10 per hour',
+                        icon: 'suitcase',
+                        lastUpdated: '40 minutes ago'
+                    }
+                ],
+                ticketCounters: [
+                    {
+                        name: 'Counter X',
+                        currentQueue: {
+                            total: 15,
+                            averageWaitTime: '15 minutes',
+                            status: 'medium',
+                            queuePercentage: 50,
+                            lastUpdated: '5 minutes ago'
+                        },
+                        services: ['Local Tickets', 'Information']
+                    },
+                    {
+                        name: 'Counter Y',
+                        currentQueue: {
+                            total: 8,
+                            averageWaitTime: '8 minutes',
+                            status: 'low',
+                            queuePercentage: 30,
+                            lastUpdated: '10 minutes ago'
+                        },
+                        services: ['Express Tickets', 'Online Booking']
+                    }
+                ],
+                platforms: [
+                    {
+                        number: 1,
+                        currentTrain: {
+                            number: 'X456',
+                            name: 'Chennai Express',
+                            destination: 'Chennai',
+                            arrivalTime: '15:00',
+                            departureTime: '15:30',
+                            status: 'On Time',
+                            lastUpdated: '15 minutes ago'
+                        }
+                    },
+                    {
+                        number: 2,
+                        currentTrain: {
+                            number: 'Y789',
+                            name: 'Bangalore Shuttle',
+                            destination: 'Bangalore',
+                            arrivalTime: '16:00',
+                            departureTime: '16:30',
+                            status: 'On Time',
+                            lastUpdated: '20 minutes ago'
+                        }
+                    }
+                ],
+                upcomingTrains: [
+                    { 
+                        number: 'Z012', 
+                        name: 'Madurai Special',
+                        destination: 'Madurai', 
+                        platform: 1, 
+                        arrivalTime: '17:00',
+                        status: 'On Time',
+                        lastUpdated: '25 minutes ago'
+                    },
+                    { 
+                        number: 'W345', 
+                        name: 'Trivandrum Mail',
+                        destination: 'Trivandrum', 
+                        platform: 2, 
+                        arrivalTime: '18:30',
+                        status: 'On Time',
+                        lastUpdated: '30 minutes ago'
+                    }
+                ],
+                offlineMap: {
+                    size: '2.1 MB',
+                    lastUpdated: '2024-03-10',
+                    downloadUrl: 'https://example.com/maps/southern_station.zip'
+                }
+            }
+        };
+
+        let currentStation = null;
+        let currentDestination = null;
+        let currentNavigationRoute = null;
+        let isVRVideoPlaying = false;
+        let isScreenReaderOn = false;
+        let isOffline = false;
+        let favoriteStations = ['Central'];
+
+        // Navigation Functions
+        function navigateSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            
+            const section = document.getElementById(sectionId);
+            section.classList.add('active');
+            section.style.display = 'block';
+            
+            // Update bottom nav active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (sectionId === 'landing') {
+                document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+            } else if (sectionId === 'station-select') {
+                document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+            } else if (sectionId === 'qr-section') {
+                document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+            } else if (sectionId === 'train-info') {
+                document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+            }
+        }
+
+        // Station Selection Functions
+        function populateStationList() {
+            const stationListContainer = document.getElementById('station-list');
+            stationListContainer.innerHTML = '';
+
+            Object.keys(stationData).forEach(stationKey => {
+                const station = stationData[stationKey];
+                
+                const stationCard = document.createElement('div');
+                stationCard.className = 'card';
+                stationCard.style.cursor = 'pointer';
+                stationCard.onclick = () => mockQRScan(stationKey);
+                
+                const isFavorite = favoriteStations.includes(stationKey);
+                
+                stationCard.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">${station.name} (${station.code})</div>
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${stationKey}', event)">
+                            <i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <p>${station.location.city}, ${station.location.state}</p>
+                        <button class="btn" style="width: 100%; margin-top: 10px;">
+                            <i class="fas fa-directions"></i> Select Station
+                        </button>
+                    </div>
+                `;
+                
+                stationListContainer.appendChild(stationCard);
+            });
+
+            // Add search functionality
+            const searchInput = document.getElementById('station-search');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const cards = stationListContainer.querySelectorAll('.card');
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('.card-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function toggleFavorite(stationKey, event) {
+            event.stopPropagation();
+            const index = favoriteStations.indexOf(stationKey);
+            
+            if (index === -1) {
+                favoriteStations.push(stationKey);
+                event.target.classList.add('active');
+                event.target.innerHTML = '<i class="fas fa-heart"></i>';
+                showToast('Added to favorites');
+            } else {
+                favoriteStations.splice(index, 1);
+                event.target.classList.remove('active');
+                event.target.innerHTML = '<i class="far fa-heart"></i>';
+                showToast('Removed from favorites');
+            }
+            
+            // Update favorite button in station info if needed
+            if (currentStation && currentStation.code === stationData[stationKey].code) {
+                const favBtn = document.getElementById('station-favorite-btn');
+                if (index === -1) {
+                    favBtn.classList.add('active');
+                    favBtn.innerHTML = '<i class="fas fa-heart"></i>';
+                } else {
+                    favBtn.classList.remove('active');
+                    favBtn.innerHTML = '<i class="far fa-heart"></i>';
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('favoriteStations', JSON.stringify(favoriteStations));
+        }
+
+        function refreshStations() {
+            // Simulate refreshing station data
+            showToast('Refreshing station data...');
+            setTimeout(() => {
+                populateStationList();
+                showToast('Station data updated');
+            }, 1000);
+        }
+
+        // QR Code Simulation
+        function mockQRScan(stationKey) {
+            currentStation = stationData[stationKey];
+            
+            // Show toast notification
+            showToast(`QR Code scanned for ${currentStation.name}`);
+            
+            navigateSection('station-info');
+            updateStationInfo();
+            placeFacilityBeacons();
+            
+            // Update favorite button state
+            const isFavorite = favoriteStations.includes(stationKey);
+            const favBtn = document.getElementById('station-favorite-btn');
+            favBtn.className = `favorite-btn ${isFavorite ? 'active' : ''}`;
+            favBtn.innerHTML = `<i class="${isFavorite ? 'fas' : 'far'} fa-heart"></i>`;
+        }
+
+        // Station Information Update
+        function updateStationInfo() {
+            document.getElementById('current-station-name').textContent = currentStation.name;
+            
+            // Update crowd level and next train time
+            const crowdLevels = ['Low', 'Moderate', 'High'];
+            const randomCrowd = crowdLevels[Math.floor(Math.random() * crowdLevels.length)];
+            document.getElementById('crowd-level').textContent = randomCrowd;
+            
+            if (currentStation.upcomingTrains.length > 0) {
+                document.getElementById('next-train-time').textContent = 
+                    `Next: ${currentStation.upcomingTrains[0].arrivalTime}`;
+            }
+
+            const amenitiesContainer = document.getElementById('station-amenities');
+            amenitiesContainer.innerHTML = '';
+
+            currentStation.amenities.forEach(amenity => {
+                const amenityDiv = document.createElement('div');
+                amenityDiv.className = 'grid-item';
+                
+                const iconMap = {
+                    'restroom': 'restroom',
+                    'ticket-alt': 'ticket-alt',
+                    'couch': 'couch',
+                    'suitcase': 'suitcase',
+                    'utensils': 'utensils',
+                    'info-circle': 'info-circle',
+                    'tint': 'tint',
+                    'money-bill-wave': 'money-bill-wave',
+                    'first-aid': 'first-aid'
+                };
+                
+                amenityDiv.innerHTML = `
+                    <i class="fas fa-${amenity.icon || 'map-marker-alt'} grid-icon"></i>
+                    <div class="grid-title">${amenity.name}</div>
+                    <small>${amenity.crowdLevel === 'high' ? '🚨' : amenity.crowdLevel === 'medium' ? '⚠️' : '✅'}</small>
+                `;
+                
+                amenityDiv.onclick = () => {
+                    showNavigation(amenity.name);
+                };
+                
+                amenitiesContainer.appendChild(amenityDiv);
+            });
+
+            // Update time display
+            updateSystemStatus();
+        }
+
+        function downloadOfflineMap() {
+            const progressBar = document.getElementById('download-progress-bar');
+            const progressContainer = document.getElementById('download-progress');
+            
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            // Simulate download progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    showToast('Offline map downloaded successfully');
+                    setTimeout(() => {
+                        progressContainer.style.display = 'none';
+                    }, 2000);
+                }
+                progressBar.style.width = `${progress}%`;
+            }, 200);
+        }
+
+        // Ticket Counter Details
+        function showTicketCounterDetails(counterName) {
+            const counters = currentStation.ticketCounters;
+            const counterDetails = counters.find(counter => counter.name === counterName);
+
+            const modalContent = document.getElementById('ticket-counter-info');
+            modalContent.innerHTML = `
+                <h3>${counterName}</h3>
+                <p><strong>Services:</strong> ${counterDetails.services.join(', ')}</p>
+                <p><strong>Last Updated:</strong> ${counterDetails.currentQueue.lastUpdated}</p>
+                
+                <div style="margin: 15px 0;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>Current Queue:</strong>
+                        <span>${counterDetails.currentQueue.total} people</span>
+                    </div>
+                    <div class="queue-visualization">
+                        <div class="queue-progress" style="width: ${counterDetails.currentQueue.queuePercentage}%; background-color: ${
+                            counterDetails.currentQueue.status === 'high' ? 'var(--danger-color)' : 
+                            counterDetails.currentQueue.status === 'medium' ? 'var(--warning-color)' : 'var(--success-color)'
+                        }"></div>
+                    </div>
+                    <p><strong>Average Wait Time:</strong> ${counterDetails.currentQueue.averageWaitTime}</p>
+                </div>
+                
+                <button class="btn" onclick="showNavigation('Ticket Counter')" style="width: 100%;">
+                    <i class="fas fa-directions"></i> Navigate to Counter
+                </button>
+            `;
+
+            navigateSection('ticket-counter-modal');
+        }
+
+        function closeTicketCounterModal() {
+            navigateSection('station-info');
+        }
+
+        // Navigation Functions
+        function showNavigation(destination) {
+            currentDestination = destination;
+            
+            navigateSection('navigation');
+            
+            const amenity = currentStation.amenities.find(a => a.name === destination) || 
+                          { name: destination, location: 'Main Station Area', details: 'General station area' };
+            
+            document.getElementById('navigation-destination').textContent = `Navigate to ${destination}`;
+            document.getElementById('nav-to-destination').textContent = `To ${destination}`;
+            
+            const navigationMap = document.getElementById('navigation-map');
+            navigationMap.innerHTML = `
+                <div style="padding: 15px; text-align: center;">
+                    <i class="fas fa-map-marked-alt" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 10px;"></i>
+                    <h3>Navigation to ${destination}</h3>
+                    <p>Location: ${amenity.location}</p>
+                    <p>${amenity.details || 'No additional details'}</p>
+                </div>
+            `;
+
+            // Find a suitable navigation route
+            currentNavigationRoute = currentStation.vrNavigation.routes.find(route => 
+                route.name.toLowerCase().includes(destination.toLowerCase())) || 
+                currentStation.vrNavigation.routes[0];
+
+            const navDetails = document.getElementById('navigation-details');
+            navDetails.innerHTML = '';
+            
+            if (currentNavigationRoute) {
+                // Show VR navigation card if available
+                const vrCard = document.getElementById('vr-navigation-card');
+                if (currentNavigationRoute.vrVideo) {
+                    vrCard.style.display = 'block';
+                    const vrVideo = document.getElementById('vr-video');
+                    vrVideo.src = currentNavigationRoute.vrVideo;
+                    
+                    // Clear previous waypoints
+                    document.querySelectorAll('.waypoint-marker').forEach(marker => marker.remove());
+                    
+                    // Add waypoint markers
+                    currentNavigationRoute.waypoints.forEach((waypoint, index) => {
+                        const marker = document.createElement('div');
+                        marker.className = 'waypoint-marker';
+                        marker.style.left = `${waypoint.x}%`;
+                        marker.style.top = `${waypoint.y}%`;
+                        marker.textContent = waypoint.label;
+                        
+                        // Add distance indicator (simulated)
+                        const distance = document.createElement('div');
+                        distance.className = 'distance-indicator';
+                        distance.textContent = `${Math.floor(Math.random() * 50) + 20}m`;
+                        marker.appendChild(distance);
+                        
+                        vrVideo.parentElement.appendChild(marker);
+                    });
+                } else {
+                    vrCard.style.display = 'none';
+                }
+
+                // Add navigation steps
+                currentNavigationRoute.steps.forEach((step, index) => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'nav-step';
+                    stepDiv.innerHTML = step;
+                    navDetails.appendChild(stepDiv);
+                });
+
+                // Add estimated time
+                const timeDiv = document.createElement('div');
+                timeDiv.style.marginTop = '15px';
+                timeDiv.style.fontWeight = '500';
+                timeDiv.innerHTML = `<strong>Estimated Time:</strong> ${currentNavigationRoute.estimatedTime}`;
+                navDetails.appendChild(timeDiv);
+            } else {
+                navDetails.innerHTML = '<p>No specific navigation route available. Please follow station signs.</p>';
+            }
+        }
+
+        function toggleVRVideo() {
+            const vrVideo = document.getElementById('vr-video');
+            const playPauseIcon = document.getElementById('vr-play-pause');
+            
+            if (isVRVideoPlaying) {
+                vrVideo.pause();
+                playPauseIcon.className = 'fas fa-play';
+            } else {
+                vrVideo.play();
+                playPauseIcon.className = 'fas fa-pause';
+            }
+            
+            isVRVideoPlaying = !isVRVideoPlaying;
+        }
+
+        function fullscreenVR() {
+            const vrContainer = document.querySelector('.vr-container');
+            
+            if (vrContainer.requestFullscreen) {
+                vrContainer.requestFullscreen();
+            } else if (vrContainer.webkitRequestFullscreen) {
+                vrContainer.webkitRequestFullscreen();
+            } else if (vrContainer.msRequestFullscreen) {
+                vrContainer.msRequestFullscreen();
+            }
+            
+            // Play video when going fullscreen
+            if (!isVRVideoPlaying) {
+                toggleVRVideo();
+            }
+        }
+
+        function returnToStationInfo() {
+            navigateSection('station-info');
+        }
+
+        // Train Information Update
+        function updateTrainInfo() {
+            const currentTrainInfo = document.getElementById('current-train-info');
+            const upcomingTrainsList = document.getElementById('upcoming-train-list');
+
+            // Current trains on platforms
+            currentTrainInfo.innerHTML = currentStation.platforms.map(platform => `
+                <div class="train-card">
+                    <div class="platform-tag">Platform ${platform.number}</div>
+                    <div class="train-number">${platform.currentTrain.number}</div>
+                    <div class="train-name">${platform.currentTrain.name}</div>
+                    <div class="train-detail">
+                        <span>To: ${platform.currentTrain.destination}</span>
+                        <span class="${platform.currentTrain.status.includes('Delayed') ? 'delay' : 'on-time'}">
+                            ${platform.currentTrain.status}
+                            ${platform.currentTrain.status.includes('Delayed') ? '<span class="live-indicator"></span>' : ''}
+                        </span>
+                    </div>
+                    <div class="train-detail">
+                        <span>Arrival: ${platform.currentTrain.arrivalTime}</span>
+                        <span>Departure: ${platform.currentTrain.departureTime}</span>
+                    </div>
+                    <div class="train-detail">
+                        <span>Last Updated: ${platform.currentTrain.lastUpdated}</span>
+                    </div>
+                    <button class="btn" onclick="showNavigation('Platform ${platform.number}')" style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-directions"></i> Navigate to Platform
+                    </button>
+                </div>
+            `).join('');
+
+            // Upcoming Trains
+            upcomingTrainsList.innerHTML = currentStation.upcomingTrains.map(train => `
+                <div class="train-card">
+                    <div class="train-number">${train.number}</div>
+                    <div class="train-name">${train.name}</div>
+                    <div class="train-detail">
+                        <span>To: ${train.destination}</span>
+                        <span class="${train.status.includes('Delayed') ? 'delay' : 'on-time'}">
+                            ${train.status}
+                        </span>
+                    </div>
+                    <div class="train-detail">
+                        <span>Platform: ${train.platform}</span>
+                        <span>Arrival: ${train.arrivalTime}</span>
+                    </div>
+                    <div class="train-detail">
+                        <span>Last Updated: ${train.lastUpdated}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Platform Guide Update
+        function updatePlatformGuide() {
+            const platformDetails = document.getElementById('platform-details');
+            platformDetails.innerHTML = currentStation.platforms.map(platform => `
+                <div class="train-card">
+                    <div class="platform-tag">Platform ${platform.number}</div>
+                    <div class="train-number">${platform.currentTrain.number}</div>
+                    <div class="train-name">${platform.currentTrain.name}</div>
+                    <div class="train-detail">
+                        <span>To: ${platform.currentTrain.destination}</span>
+                        <span class="${platform.currentTrain.status.includes('Delayed') ? 'delay' : 'on-time'}">
+                            ${platform.currentTrain.status}
+                        </span>
+                    </div>
+                    <div class="train-detail">
+                        <span>Arrival: ${platform.currentTrain.arrivalTime}</span>
+                        <span>Departure: ${platform.currentTrain.departureTime}</span>
+                    </div>
+                    <div class="train-detail">
+                        <span>Last Updated: ${platform.currentTrain.lastUpdated}</span>
+                    </div>
+                    <button class="btn" onclick="showNavigation('Platform ${platform.number}')" style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-directions"></i> Navigate to Platform
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Beacon Placement Simulation
+        function placeFacilityBeacons() {
+            const beaconContainer = document.getElementById('beacon-container');
+            beaconContainer.innerHTML = '';
+
+            // Sample beacon placements based on amenities
+            currentStation.amenities.forEach((amenity, index) => {
+                const beacon = document.createElement('div');
+                beacon.className = 'beacon';
+                
+                // Distribute beacons evenly in the map area
+                const left = 10 + (index % 3) * 30 + '%';
+                const top = 20 + Math.floor(index / 3) * 25 + '%';
+                
+                beacon.style.left = left;
+                beacon.style.top = top;
+                beacon.title = amenity.name;
+                beacon.innerHTML = amenity.name.charAt(0);
+                beacon.onclick = () => {
+                    showNavigation(amenity.name);
+                };
+                beaconContainer.appendChild(beacon);
+            });
+        }
+
+        // Voice Navigation Simulation
+        function startVoiceNavigation() {
+            const audioVisualization = document.getElementById('audio-visualization');
+            audioVisualization.style.display = 'flex';
+
+            // Sample voice guidance
+            if ('speechSynthesis' in window) {
+                const synth = window.speechSynthesis;
+                
+                // Cancel any ongoing speech
+                synth.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(
+                    `Welcome to ${currentStation ? currentStation.name : 'the railway station'}. ` +
+                    `Follow the signs to reach your desired platform. ` +
+                    `For assistance, please visit the information desk.`
+                );
+                
+                synth.speak(utterance);
+
+                // Stop visualization after speech ends
+                utterance.onend = () => {
+                    audioVisualization.style.display = 'none';
+                };
+            } else {
+                showToast('Voice navigation is not supported in your browser');
+                audioVisualization.style.display = 'none';
+            }
+        }
+
+        // Enhanced Time and Status Tracking
+        function updateSystemStatus() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Update all time displays
+            document.querySelectorAll('#current-time, #station-time').forEach(el => {
+                el.textContent = timeString;
+            });
+
+            // Simulate network and GPS status changes occasionally
+            if (Math.random() > 0.95) {
+                const networkStatus = document.querySelector('.status-item .fa-wifi').parentElement;
+                
+                if (networkStatus.classList.contains('online')) {
+                    networkStatus.classList.remove('online');
+                    networkStatus.classList.add('offline');
+                    networkStatus.querySelector('span').textContent = 'Offline';
+                    showOfflineBanner(true);
+                    showToast('Network connection lost');
+                } else {
+                    networkStatus.classList.add('online');
+                    networkStatus.classList.remove('offline');
+                    networkStatus.querySelector('span').textContent = 'Online';
+                    showOfflineBanner(false);
+                    showToast('Network connection restored');
+                }
+            }
+        }
+
+        function showOfflineBanner(show) {
+            const banner = document.getElementById('offline-banner');
+            isOffline = show;
+            
+            if (show) {
+                banner.classList.add('show');
+            } else {
+                banner.classList.remove('show');
+            }
+        }
+
+        // Emergency Functions
+        function showEmergencyModal() {
+            const emergencyContacts = document.getElementById('emergency-contacts');
+            
+            if (currentStation) {
+                emergencyContacts.innerHTML = `
+                    <div class="train-card">
+                        <div class="train-name">${currentStation.name} Emergency</div>
+                        <div class="train-detail">
+                            <span>Station Contact:</span>
+                            <span>${currentStation.contactNumber}</span>
+                        </div>
+                        <div class="train-detail">
+                            <span>Emergency Number:</span>
+                            <span>${currentStation.emergencyNumber}</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                emergencyContacts.innerHTML = `
+                    <div class="train-card">
+                        <div class="train-name">Railway Emergency Contacts</div>
+                        <div class="train-detail">
+                            <span>Railway Helpline:</span>
+                            <span>139</span>
+                        </div>
+                        <div class="train-detail">
+                            <span>Medical Emergency:</span>
+                            <span>108</span>
+                        </div>
+                        <div class="train-detail">
+                            <span>Police:</span>
+                            <span>100</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            navigateSection('emergency-modal');
+        }
+
+        function closeEmergencyModal() {
+            navigateSection(currentStation ? 'station-info' : 'landing');
+        }
+
+        function callEmergency(type) {
+            let number = '';
+            let service = '';
+            
+            switch(type) {
+                case 'police':
+                    number = '100';
+                    service = 'Police';
+                    break;
+                case 'medical':
+                    number = '108';
+                    service = 'Medical';
+                    break;
+                case 'railway':
+                    number = '139';
+                    service = 'Railway Helpline';
+                    break;
+            }
+            
+            showToast(`Calling ${service} at ${number}...`);
+            
+            // In a real app, this would initiate a phone call
+            console.log(`Calling ${service}: ${number}`);
+        }
+
+        // Accessibility Functions
+        function toggleAccessibilityPanel() {
+            const panel = document.getElementById('accessibility-panel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleScreenReader() {
+            isScreenReaderOn = !isScreenReaderOn;
+            showToast(`Screen reader ${isScreenReaderOn ? 'enabled' : 'disabled'}`);
+            
+            // In a real app, this would trigger actual screen reader functionality
+            if (isScreenReaderOn) {
+                document.body.setAttribute('aria-live', 'polite');
+            } else {
+                document.body.removeAttribute('aria-live');
+            }
+        }
+
+        function setupAccessibilityControls() {
+            // High contrast toggle
+            document.getElementById('high-contrast').addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('high-contrast');
+                } else {
+                    document.body.classList.remove('high-contrast');
+                }
+            });
+            
+            // Text size adjustment
+            document.getElementById('text-size').addEventListener('change', function() {
+                document.body.classList.remove('text-large', 'text-xlarge');
+                if (this.value === 'large') {
+                    document.body.classList.add('text-large');
+                } else if (this.value === 'xlarge') {
+                    document.body.classList.add('text-xlarge');
+                }
+            });
+        }
+
+        // Notification Center
+        function toggleNotificationCenter() {
+            const center = document.getElementById('notification-center');
+            center.style.display = center.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function clearNotifications() {
+            document.getElementById('notification-list').innerHTML = '<div class="notification-item">No notifications</div>';
+            showToast('Notifications cleared');
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+            
+            // For screen reader users
+            if (isScreenReaderOn) {
+                const liveRegion = document.createElement('div');
+                liveRegion.setAttribute('aria-live', 'polite');
+                liveRegion.textContent = message;
+                document.body.appendChild(liveRegion);
+                setTimeout(() => {
+                    document.body.removeChild(liveRegion);
+                }, 100);
+            }
+        }
+
+        // Initialize the app
+        window.onload = () => {
+            // Load favorites from localStorage
+            const savedFavorites = localStorage.getItem('favoriteStations');
+            if (savedFavorites) {
+                favoriteStations = JSON.parse(savedFavorites);
+            }
+            
+            // Simulate loading screen
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                
+                // Initialize components
+                populateStationList();
+                updateSystemStatus();
+                setupAccessibilityControls();
+                
+                // Set up event listeners
+                document.getElementById('accessibility-btn').addEventListener('click', toggleAccessibilityPanel);
+                document.getElementById('notification-bell').addEventListener('click', toggleNotificationCenter);
+                
+                // Update time every minute
+                setInterval(updateSystemStatus, 60000);
+                
+                // Event listeners for sections that need info updates
+                document.getElementById('train-info').addEventListener('click', updateTrainInfo);
+                document.getElementById('platform-guide').addEventListener('click', updatePlatformGuide);
+                
+                // Show welcome message
+                showToast('Welcome to Railway Guide!');
+                
+                // Simulate occasional notifications
+                setInterval(() => {
+                    const messages = [
+                        'Train 12345 is now arriving on Platform 3',
+                        'Ticket counter A has a short queue (3 people)',
+                        'Food court special offer: 20% off all meals until 3 PM',
+                        'Free WiFi now available throughout the station'
+                    ];
+                    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                    
+                    const notificationItem = document.createElement('div');
+                    notificationItem.className = 'notification-item';
+                    notificationItem.innerHTML = `
+                        <div>${randomMessage}</div>
+                        <div class="notification-time">Just now</div>
+                    `;
+                    
+                    const notificationList = document.getElementById('notification-list');
+                    notificationList.insertBefore(notificationItem, notificationList.firstChild);
+                    
+                    // Show toast for important notifications
+                    if (Math.random() > 0.7) {
+                        showToast(randomMessage);
+                    }
+                }, 30000);
+                
+                // Simulate occasional train status updates
+                setInterval(() => {
+                    if (currentStation) {
+                        // Randomly update some train statuses
+                        currentStation.platforms.forEach(platform => {
+                            if (Math.random() > 0.7) {
+                                if (platform.currentTrain.status.includes('Delayed')) {
+                                    platform.currentTrain.status = 'On Time';
+                                    platform.currentTrain.lastUpdated = 'Just now';
+                                    showToast(`${platform.currentTrain.name} is now on time`);
+                                } else if (Math.random() > 0.8) {
+                                    const delay = Math.floor(Math.random() * 30) + 5;
+                                    platform.currentTrain.status = `Delayed by ${delay} min`;
+                                    platform.currentTrain.lastUpdated = 'Just now';
+                                    showToast(`${platform.currentTrain.name} delayed by ${delay} minutes`);
+                                }
+                            }
+                        });
+                        
+                        // Update the display if we're on the train info page
+                        if (document.getElementById('train-info').classList.contains('active')) {
+                            updateTrainInfo();
+                        }
+                    }
+                }, 15000);
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
